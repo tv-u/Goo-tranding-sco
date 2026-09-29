@@ -84,3 +84,111 @@
   background: inherit;
   animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
+
+/* Same content and same features on every viewport */
+html {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  min-width: 0;
+}
+
+p,
+span,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: anywhere;
+}
+
+pre,
+code {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Preserve all content; only change presentation */
+@media (max-width: 639px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .flex-row {
+    flex-wrap: wrap;
+  }
+
+  [role="dialog"],
+  .fixed.inset-0 {
+    max-width: 100vw;
+    max-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    min-height: 42px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  main {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
