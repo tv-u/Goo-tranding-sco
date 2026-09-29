@@ -1,4 +1,4 @@
-name: Deploy GOO-TRANDING to GitHub Pages
+name: Deploy Existing GOO-TRANDING Build
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout existing repository
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -28,20 +28,20 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      - name: Install dependencies without changing lockfile
+        run: npm install --legacy-peer-deps --no-package-lock
 
-      - name: Build
+      - name: Build existing app
         run: npm run build
 
-      - name: Verify build
+      - name: Verify production output
         run: |
           test -f dist/index.html
           test -d dist/assets
           ! grep -q '/src/main.tsx' dist/index.html
           ! grep -q '/src/main.jsx' dist/index.html
 
-      - name: Upload Pages artifact
+      - name: Upload compiled Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
