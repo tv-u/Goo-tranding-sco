@@ -17,6 +17,8 @@ import { Footer } from './components/Footer';
 import { ThreeCanvasBackground } from './components/ThreeCanvasBackground';
 import { CloudflareConnectionModal } from './components/CloudflareConnectionModal';
 import { WorldPowerToolsModal } from './components/WorldPowerToolsModal';
+import { EnterpriseSuiteModal } from './components/EnterpriseSuiteModal';
+import { EnterpriseFeaturePage } from './components/EnterpriseFeaturePage';
 import { AiTrendChatbot } from './components/AiTrendChatbot';
 import { initBackgroundMonetization } from './utils/adsterra';
 
@@ -43,6 +45,15 @@ export function App() {
   const [selectedCategory, setSelectedCategory] = useState<TrendCategory>('All');
   const [selectedCountry, setSelectedCountry] = useState<string>('ALL');
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [activeFeatureSlug, setActiveFeatureSlug] = useState<string | null>(() => {
+    try {
+      const path = window.location.pathname;
+      if (path.includes('/features/')) {
+        return path.split('/features/')[1]?.replace(/\/$/, '') || null;
+      }
+    } catch (_) {}
+    return null;
+  });
 
   // Modals & Panels
   const [isPipelineOpen, setIsPipelineOpen] = useState(false);
@@ -392,83 +403,98 @@ export function App() {
         </div>
       )}
 
-      <main className="flex-1 w-full max-w-full">
-        {/* Global Hero & Top 3 Spotlights */}
-        <LiveHero
-          topTrends={filteredTrends}
-          selectedCountry={selectedCountry}
-          onSelectCountry={setSelectedCountry}
-          onSelectTrend={handleSelectTrend}
-          currentLangCode={currentLang.code}
-          onOpenChatbot={() => setIsChatbotOpen(true)}
-        />
-
-        {/* High-Grade Interactive 60fps Signal Radar Canvas */}
-        <div id="radar-section" className="max-w-7xl mx-auto px-4 sm:px-6 my-4">
-          <TrendRadarCanvas
-            trends={trends}
-            onSelectTrend={handleSelectTrend}
-            currentLangCode={currentLang.code}
-          />
-        </div>
-
-        {/* Non-intrusive Sponsor Banner */}
-        <MonetizationBanner placement="header" currentLangCode={currentLang.code} />
-
-        {/* Global Signals Radar / Geo Matrix */}
-        <TrendSignalsMap
+      {/* If a dedicated feature page is open, render its standalone page with full SEO */}
+      {activeFeatureSlug ? (
+        <EnterpriseFeaturePage
+          featureSlug={activeFeatureSlug}
+          onBackToHome={() => {
+            setActiveFeatureSlug(null);
+            window.history.pushState({}, '', '/');
+            document.title = "GOO-TRANDING — Today's Top Global Trends, Breaking News & AI Search Analysis";
+          }}
           trends={trends}
-          selectedCountry={selectedCountry}
-          onSelectCountry={setSelectedCountry}
-          currentLangCode={currentLang.code}
+          currentLang={currentLang}
+          onSelectTrend={handleSelectTrend}
         />
+      ) : (
+        <main className="flex-1 w-full max-w-full">
+          {/* Global Hero & Top 3 Spotlights */}
+          <LiveHero
+            topTrends={filteredTrends}
+            selectedCountry={selectedCountry}
+            onSelectCountry={setSelectedCountry}
+            onSelectTrend={handleSelectTrend}
+            currentLangCode={currentLang.code}
+            onOpenChatbot={() => setIsChatbotOpen(true)}
+          />
 
-        {/* Global Top 20 Multi-Factor Leaderboard */}
-        <div id="top-20">
-          <Top20Leaderboard
-            trends={filteredTrends.slice(0, 20)}
-            onSelectTrend={handleSelectTrend}
-            currentLangCode={currentLang.code}
-          />
-        </div>
+          {/* High-Grade Interactive 60fps Signal Radar Canvas */}
+          <div id="radar-section" className="max-w-7xl mx-auto px-4 sm:px-6 my-4">
+            <TrendRadarCanvas
+              trends={trends}
+              onSelectTrend={handleSelectTrend}
+              currentLangCode={currentLang.code}
+            />
+          </div>
 
-        {/* Non-intrusive Feed Sponsor */}
-        <MonetizationBanner placement="in-feed" currentLangCode={currentLang.code} />
+          {/* Non-intrusive Sponsor Banner */}
+          <MonetizationBanner placement="header" currentLangCode={currentLang.code} />
 
-        {/* Category Collections Vertical Scroll */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-2">
-          <CategorySection
-            category="Technology"
+          {/* Global Signals Radar / Geo Matrix */}
+          <TrendSignalsMap
             trends={trends}
-            onSelectTrend={handleSelectTrend}
+            selectedCountry={selectedCountry}
+            onSelectCountry={setSelectedCountry}
             currentLangCode={currentLang.code}
           />
-          <CategorySection
-            category="Science"
-            trends={trends}
-            onSelectTrend={handleSelectTrend}
-            currentLangCode={currentLang.code}
-          />
-          <CategorySection
-            category="World"
-            trends={trends}
-            onSelectTrend={handleSelectTrend}
-            currentLangCode={currentLang.code}
-          />
-          <CategorySection
-            category="Business"
-            trends={trends}
-            onSelectTrend={handleSelectTrend}
-            currentLangCode={currentLang.code}
-          />
-          <CategorySection
-            category="Health"
-            trends={trends}
-            onSelectTrend={handleSelectTrend}
-            currentLangCode={currentLang.code}
-          />
-        </div>
-      </main>
+
+          {/* Global Top 20 Multi-Factor Leaderboard */}
+          <div id="top-20">
+            <Top20Leaderboard
+              trends={filteredTrends.slice(0, 20)}
+              onSelectTrend={handleSelectTrend}
+              currentLangCode={currentLang.code}
+            />
+          </div>
+
+          {/* Non-intrusive Feed Sponsor */}
+          <MonetizationBanner placement="in-feed" currentLangCode={currentLang.code} />
+
+          {/* Category Collections Vertical Scroll */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-2">
+            <CategorySection
+              category="Technology"
+              trends={trends}
+              onSelectTrend={handleSelectTrend}
+              currentLangCode={currentLang.code}
+            />
+            <CategorySection
+              category="Science"
+              trends={trends}
+              onSelectTrend={handleSelectTrend}
+              currentLangCode={currentLang.code}
+            />
+            <CategorySection
+              category="World"
+              trends={trends}
+              onSelectTrend={handleSelectTrend}
+              currentLangCode={currentLang.code}
+            />
+            <CategorySection
+              category="Business"
+              trends={trends}
+              onSelectTrend={handleSelectTrend}
+              currentLangCode={currentLang.code}
+            />
+            <CategorySection
+              category="Health"
+              trends={trends}
+              onSelectTrend={handleSelectTrend}
+              currentLangCode={currentLang.code}
+            />
+          </div>
+        </main>
+      )}
 
       {/* Floating Audio Podcaster Dock */}
       <AudioPodcasterDock
@@ -559,12 +585,13 @@ export function App() {
         onClose={() => setIsCloudflareOpen(false)}
       />
 
-      {/* World-Wide Enterprise 13 Pro Power Tools Suite Modal */}
-      <WorldPowerToolsModal
+      {/* World-Class Enterprise 50 Tools Suite Modal (All 50 Real Working Tools with Dedicated Pages) */}
+      <EnterpriseSuiteModal
         isOpen={isPowerSuiteOpen}
         onClose={() => setIsPowerSuiteOpen(false)}
         trends={trends}
         currentLangCode={currentLang.code}
+        onSelectTrend={handleSelectTrend}
       />
 
       {/* Autonomous Real-Working AI Trend Chatbot (Zero API Key Req) */}
@@ -583,6 +610,10 @@ export function App() {
         onOpenPipeline={() => setIsPipelineOpen(true)}
         onOpenDistribution={() => setIsDistributionOpen(true)}
         currentLangCode={currentLang.code}
+        onOpenFeature={(slug) => {
+          setActiveFeatureSlug(slug);
+          window.history.pushState({}, '', `/features/${slug}`);
+        }}
       />
     </div>
   );

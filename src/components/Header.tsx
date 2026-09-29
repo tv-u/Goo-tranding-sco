@@ -128,14 +128,6 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="w-2 h-2 rounded-full bg-[#f38020] animate-pulse"></span>
               <span className="hidden sm:inline">Edge CDN / Cloudflare</span>
             </button>
-            <span className="text-slate-600">·</span>
-            <button
-              onClick={onOpenPowerSuite}
-              className="text-[#00ff88] hover:text-white bg-[#00ff88]/10 hover:bg-[#00ff88]/20 px-2.5 py-0.5 rounded-full border border-[#00ff88]/30 transition flex items-center gap-1.5 text-[11px] font-mono font-bold shadow-sm"
-            >
-              <span className="animate-spin text-xs">⚡</span>
-              <span>13 Pro Tools</span>
-            </button>
           </div>
         </div>
       </div>

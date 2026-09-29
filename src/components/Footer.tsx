@@ -8,6 +8,7 @@ interface FooterProps {
   onOpenPipeline: () => void;
   onOpenDistribution: () => void;
   currentLangCode: string;
+  onOpenFeature?: (slug: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -15,6 +16,7 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenPipeline,
   onOpenDistribution,
   currentLangCode,
+  onOpenFeature,
 }) => {
   const { t, getLocalizedCategory } = useI18n(currentLangCode);
 
@@ -72,6 +74,26 @@ export const Footer: React.FC<FooterProps> = ({
               {t('footer_engine')}
             </h4>
             <ul className="space-y-1.5">
+              {onOpenFeature && (
+                <li>
+                  <button
+                    onClick={() => onOpenFeature('shorts-script-generator')}
+                    className="hover:text-[#ff0080] transition text-left"
+                  >
+                    YouTube Shorts Script Engine
+                  </button>
+                </li>
+              )}
+              {onOpenFeature && (
+                <li>
+                  <button
+                    onClick={() => onOpenFeature('seo-blog-generator')}
+                    className="hover:text-[#00f0ff] transition text-left"
+                  >
+                    Zero-KD Blog Generator
+                  </button>
+                </li>
+              )}
               <li>
                 <button onClick={onOpenPipeline} className="hover:text-[#ff0080] transition text-left">
                   {t('footer_worker_inspector')}
