@@ -9,6 +9,7 @@ interface FooterProps {
   onOpenDistribution: () => void;
   currentLangCode: string;
   onOpenFeature?: (slug: string) => void;
+  onOpenLegal?: (page: 'about' | 'terms' | 'security' | 'disclaimer') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -17,6 +18,7 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenDistribution,
   currentLangCode,
   onOpenFeature,
+  onOpenLegal,
 }) => {
   const { t, getLocalizedCategory } = useI18n(currentLangCode);
 
@@ -130,19 +132,39 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-1.5 text-slate-400">
               <li>
-                <span>{t('footer_transparent_scoring')}</span>
+                <button
+                  onClick={() => onOpenLegal && onOpenLegal('about')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  About Us (Company & Architecture)
+                </button>
               </li>
               <li>
-                <span>{t('footer_anti_hallucination')}</span>
+                <button
+                  onClick={() => onOpenLegal && onOpenLegal('terms')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Terms & Conditions
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onOpenLegal && onOpenLegal('security')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Security & Privacy Standards
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onOpenLegal && onOpenLegal('disclaimer')}
+                  className="hover:text-white transition text-left cursor-pointer"
+                >
+                  Algorithmic Disclaimer
+                </button>
               </li>
               <li>
                 <span>{t('footer_wikimedia_attr')}</span>
-              </li>
-              <li>
-                <span>{t('footer_privacy')}</span>
-              </li>
-              <li>
-                <span>{t('footer_monetization')}</span>
               </li>
             </ul>
           </div>

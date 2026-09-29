@@ -25,6 +25,7 @@ interface HeaderProps {
   onOpenPowerSuite: () => void;
   onSelectTrend: (trend: TrendItem) => void;
   allTrends: TrendItem[];
+  onOpenLegal?: (page: 'about' | 'terms' | 'security' | 'disclaimer') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -38,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenPowerSuite,
   onSelectTrend,
   allTrends,
+  onOpenLegal,
 }) => {
   const { t, getLocalizedCategory, getLocalizedTrend } = useI18n(currentLang.code);
   const [searchQuery, setSearchQuery] = useState('');
@@ -128,6 +130,24 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="w-2 h-2 rounded-full bg-[#f38020] animate-pulse"></span>
               <span className="hidden sm:inline">Edge CDN / Cloudflare</span>
             </button>
+            {onOpenLegal && (
+              <>
+                <span className="text-slate-600">·</span>
+                <button
+                  onClick={() => onOpenLegal('about')}
+                  className="text-slate-400 hover:text-white transition text-[11px] font-mono"
+                >
+                  About Us
+                </button>
+                <span className="text-slate-600">·</span>
+                <button
+                  onClick={() => onOpenLegal('security')}
+                  className="text-slate-400 hover:text-white transition text-[11px] font-mono"
+                >
+                  Security
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
