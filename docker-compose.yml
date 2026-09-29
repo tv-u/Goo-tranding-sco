@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  goo-tranding:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: goo_tranding_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - CRON_SECRET=${CRON_SECRET:-goo_tranding_secret_2026}
+      - ENVIRONMENT=production
+      - DEFAULT_LOCALE=en
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"

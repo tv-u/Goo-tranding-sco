@@ -1,0 +1,6 @@
+{
+  "name": "GOO-TRANDING — Global Trend AI Publishing & Distribution Engine",
+  "description": "Autonomous Global Trend → Research → AI Content → SEO Publishing → Multilingual Distribution Platform powered by Gemini and Wikipedia Knowledge Grounding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

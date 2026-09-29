@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/internal/
+
+Sitemap: https://goo-tranding.com/sitemap.xml

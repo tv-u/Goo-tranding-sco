@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #070709;
+    color: #e2e8f0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0c10;
+}
+::-webkit-scrollbar-thumb {
+  background: #23232e;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #393948;
+}
+
+/* Glassmorphism and glow accents */
+.glass-panel {
+  background: rgba(21, 21, 26, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-panel-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(26, 26, 34, 0.9);
+  border-color: rgba(255, 0, 128, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 0, 128, 0.08);
+}
+
+.neon-pink-glow {
+  box-shadow: 0 0 25px rgba(255, 0, 128, 0.35);
+}
+
+.neon-green-glow {
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.35);
+}
+
+/* Pulse animation for live signals */
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  70%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.radar-dot {
+  position: relative;
+}
+.radar-dot::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}

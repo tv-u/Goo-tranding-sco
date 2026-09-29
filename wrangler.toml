@@ -1,0 +1,26 @@
+name = "tranding-sco"
+main = "server.ts"
+compatibility_date = "2026-09-27"
+compatibility_flags = ["nodejs_compat"]
+
+[site]
+bucket = "./dist"
+
+# Scheduled Cron Trigger: Runs hourly to ingest trends, research, score, and publish
+[triggers]
+crons = ["0 * * * *"]
+
+# Cloudflare D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "goo_tranding_db"
+database_id = "d1-goo-tranding-production-id"
+
+# Cloudflare KV Cache Binding for instant edge reads
+[[kv_namespaces]]
+binding = "KV"
+id = "kv-goo-tranding-cache-id"
+
+[vars]
+ENVIRONMENT = "production"
+DEFAULT_LOCALE = "en"
