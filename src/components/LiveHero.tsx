@@ -45,17 +45,21 @@ export const LiveHero: React.FC<LiveHeroProps> = ({
         {/* Main Headline */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-mono text-[#00ff88] mb-3">
-              <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-pulse" />
-              <span>{t('hero_badge')}</span>
+            {/* Prominent Blue Browser-Style Header Tag */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0070f3]/15 border border-[#0070f3]/40 text-[#00f0ff] mb-3 shadow-[0_0_20px_rgba(0,112,243,0.3)]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#00f0ff] animate-ping" />
+              <span className="text-xs sm:text-sm font-bold font-mono tracking-wide text-white">
+                🌐 <span className="text-[#00f0ff]">GOO-TRANDING</span> • {currentLangCode === 'hi' ? 'आज के सबसे बड़े ट्रेंड्स' : "Today's Top Viral Trends"}
+              </span>
             </div>
+
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.08]">
               {t('hero_title_1')} <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-[#ff0080] via-[#ffdd00] to-[#00ff88] bg-clip-text text-transparent">
                 {t('hero_title_2')}
               </span>
             </h1>
-            <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+            <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed font-normal">
               {t('hero_desc')}
             </p>
           </div>
