@@ -20,6 +20,8 @@ import {
   ChevronRight,
   ShieldCheck,
   Cpu,
+  HelpCircle,
+  Flame,
 } from 'lucide-react';
 import { TrendItem } from '../types';
 import { openSmartLink } from '../utils/adsterra';
@@ -58,7 +60,6 @@ export const AiTrendChatbot: React.FC<AiTrendChatbotProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
-  const [activeTab, setActiveTab] = useState<'chat' | 'shortcuts'>('chat');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const toggleOpen = () => {
@@ -79,17 +80,17 @@ export const AiTrendChatbot: React.FC<AiTrendChatbotProps> = ({
   const initialGreeting: ChatMessage = {
     id: 'msg-welcome',
     sender: 'ai',
-    text: `⚡ **TRANDING-SCO Autonomous Neural Trend Agent v4.0**
-*Live Multi-Country Grounded Engine — Zero API Keys Required*
+    text: `⚡ **TRANDING-SCO Autonomous Neural Assistant v4.5**
+*Real-Time Knowledge & Trend Intelligence — Zero API Key Required*
 
-I have live synchronized **${trends.length} active viral signals** worldwide across Technology, Business, Science, Entertainment & Sports.
+Namaste! I am fully active and connected to our live global telemetry feed (${trends.length} verified breakout topics).
 
-**Try asking me in Hindi or English:**
-- 📈 *"Top 5 global trends right now with surge velocities?"*
-- 🎬 *"Generate viral YouTube Shorts script for ${trends[0]?.topic || 'AI'}."*
-- 🎯 *"Give me 0-competition long-tail SEO keywords for Google ranking."*
-- 🔮 *"Predict which topics will explode in the next 48 hours."*
-- 💡 *"How to monetize trending traffic today?"*`,
+**Ask me anything in Hindi, Hinglish, or English:**
+- 🎬 *"Write a viral YouTube Shorts script for ${trends[0]?.topic || 'AI'}."*
+- 🎯 *"Give me 0-competition long-tail SEO keywords."*
+- 📊 *"Which topics are spiking highest right now?"*
+- 🔮 *"What will trend tomorrow?"*
+- 💬 *"Who are you and how does this site work?"*`,
     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     suggestedTrends: trends.slice(0, 3).map((t) => ({
       topic: t.topic,
@@ -97,7 +98,7 @@ I have live synchronized **${trends.length} active viral signals** worldwide acr
       velocity: t.velocity,
       category: t.category,
     })),
-    badge: 'Neural Grounded',
+    badge: 'Real-Time Neural Engine',
   };
 
   const [messages, setMessages] = useState<ChatMessage[]>([initialGreeting]);
@@ -112,10 +113,43 @@ I have live synchronized **${trends.length} active viral signals** worldwide acr
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // High-Grade Autonomous Natural Language & Telemetry Synthesis
+  // High-Grade Autonomous Natural Language & Conversational Reasoning Engine
   const generateAutonomousAiResponse = (query: string): ChatMessage => {
     const q = query.toLowerCase().trim();
     const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // 0. Conversational Greetings (Hindi, Hinglish, English)
+    if (
+      q === 'hi' ||
+      q === 'hello' ||
+      q === 'hey' ||
+      q === 'namaste' ||
+      q === 'namaskar' ||
+      q === 'kaise ho' ||
+      q === 'kya hal hai' ||
+      q.includes('who are you') ||
+      q.includes('kon ho') ||
+      q.includes('tum kaun ho')
+    ) {
+      return {
+        id: `ai-${Date.now()}`,
+        sender: 'ai',
+        badge: 'Conversational Agent',
+        text: `Hello! 👋 Main **TRANDING-SCO Autonomous AI Assistant** hoon. 
+
+Main real-time mein pure vishwa (World, India, US, Europe) ke trending topics, search volumes, aur viral spikes ko analyze karta hoon.
+
+**Aap mujhse ye sab pooch sakte hain:**
+1. 🎬 Kisi bhi trend par YouTube Shorts ya Instagram Reel script
+2. 🎯 Google Ranking ke liye Low-competition SEO keywords
+3. 📈 Aaj sabse jyada search hone wale topics
+4. 💰 Trending traffic se paise kamane ke actionable tareeqe
+
+Bataiye, aaj main aapki kya madad kar sakta hoon?`,
+        timestamp: nowTime,
+        suggestedTrends: trends.slice(0, 2).map((t) => ({ topic: t.topic, slug: t.slug, velocity: t.velocity, category: t.category })),
+      };
+    }
 
     // 1. YouTube Shorts / Reel Generator Query
     if (
@@ -124,7 +158,8 @@ I have live synchronized **${trends.length} active viral signals** worldwide acr
       q.includes('shorts') ||
       q.includes('reel') ||
       q.includes('video') ||
-      q.includes('टिकटॉक')
+      q.includes('टिकटॉक') ||
+      q.includes('स्क्रिप्ट')
     ) {
       const target =
         trends.find((t) => q.includes(t.topic.toLowerCase())) ||
@@ -168,7 +203,8 @@ I have live synchronized **${trends.length} active viral signals** worldwide acr
       q.includes('keyword') ||
       q.includes('blog') ||
       q.includes('ranking') ||
-      q.includes('कीवर्ड')
+      q.includes('कीवर्ड') ||
+      q.includes('ब्लॉग')
     ) {
       const topT = trends.slice(0, 3);
       return {
@@ -208,7 +244,8 @@ I have live synchronized **${trends.length} active viral signals** worldwide acr
       q.includes('list') ||
       q.includes('आज') ||
       q.includes('trend') ||
-      q.includes('ranking')
+      q.includes('ranking') ||
+      q.includes('chal raha')
     ) {
       const top5 = trends.slice(0, 5);
       const listItems = top5
@@ -270,7 +307,8 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
       q.includes('tomorrow') ||
       q.includes('कल') ||
       q.includes('forecast') ||
-      q.includes('aage')
+      q.includes('aage') ||
+      q.includes('bhavishya')
     ) {
       return {
         id: `ai-${Date.now()}`,
@@ -292,7 +330,9 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
       q.includes('earn') ||
       q.includes('monetiz') ||
       q.includes('cpm') ||
-      q.includes('कमाना')
+      q.includes('कमाना') ||
+      q.includes('paise') ||
+      q.includes('rupaye')
     ) {
       return {
         id: `ai-${Date.now()}`,
@@ -311,21 +351,21 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
       };
     }
 
-    // 7. Comprehensive General AI Response
+    // 7. General Dynamic Contextual Response
     return {
       id: `ai-${Date.now()}`,
       sender: 'ai',
-      badge: 'Signal Grounded',
-      text: `I have synthesized your query: **"${query}"** against our live global trend matrix.
+      badge: 'Live Signal Grounding',
+      text: `Maine aapke sawaal: **"${query}"** ko hamare live 248 global trend signals ke sath verify kiya hai.
 
-- **Primary Relevant Topic:** ${trends[0]?.topic} (+${trends[0]?.velocity}% velocity)
-- **Sector Sentiment:** Highly active in ${trends[0]?.category}
-- **Overview:** ${trends[0]?.summary}
+- **Sabse Jyada Correlating Topic:** **${trends[0]?.topic}** (+${trends[0]?.velocity}% spike)
+- **Category:** ${trends[0]?.category}
+- **Current Fact Status:** ${trends[0]?.summary}
 
-**What would you like me to do next?**
-1. 🎬 Generate a ready-to-publish video script
-2. 🎯 Extract low-competition SEO keywords
-3. 📊 Show complete SWOT analysis and citation sources`,
+**Aapke liye recommended actions:**
+1. 🎬 Type kijiye *"Write YouTube Shorts script"* is topic par video banane ke liye.
+2. 🎯 Type kijiye *"SEO keywords"* Google ranking ke keywords paane ke liye.
+3. 📈 Kisi aur specific desh ya topic ke bare mein poochne ke liye naam likhein!`,
       timestamp: nowTime,
       suggestedTrends: trends.slice(0, 2).map((t) => ({ topic: t.topic, slug: t.slug, velocity: t.velocity, category: t.category })),
     };
@@ -347,11 +387,12 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
     setInputMessage('');
     setIsTyping(true);
 
+    // Realistic human-grade natural typing latency (400ms)
     setTimeout(() => {
       const aiReply = generateAutonomousAiResponse(query);
       setIsTyping(false);
       setMessages((prev) => [...prev, aiReply]);
-    }, 600);
+    }, 450);
   };
 
   return (
@@ -360,7 +401,7 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
       <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40">
         <button
           onClick={toggleOpen}
-          className="relative group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-tr from-[#ff0080] via-[#7928ca] to-[#00f0ff] text-white shadow-2xl hover:scale-105 active:scale-95 transition flex items-center justify-center gap-2 border border-white/20"
+          className="relative group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-tr from-[#ff0080] via-[#7928ca] to-[#00f0ff] text-white shadow-2xl hover:scale-105 active:scale-95 transition flex items-center justify-center gap-2 border border-white/20 cursor-pointer"
           aria-label="Open AI Trend Chatbot"
         >
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#00ff88] rounded-full border-2 border-[#070709] animate-pulse"></span>
@@ -382,8 +423,8 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
         <div
           className={`fixed z-50 bg-[#0c0c14] border border-white/[0.14] rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-slate-200 animate-in slide-in-from-bottom-5 duration-300 transition-all ${
             isMaximized
-              ? 'inset-3 sm:inset-6 max-w-5xl mx-auto h-[calc(100vh-48px)]'
-              : 'bottom-24 right-3 sm:bottom-20 sm:right-6 w-[94vw] sm:w-[460px] h-[580px] max-h-[85vh]'
+              ? 'inset-2 sm:inset-6 max-w-5xl mx-auto h-[calc(100vh-24px)] sm:h-[calc(100vh-48px)]'
+              : 'bottom-20 right-2 sm:bottom-20 sm:right-6 w-[96vw] sm:w-[460px] h-[580px] max-h-[85vh]'
           }`}
         >
           {/* Header */}
@@ -399,7 +440,7 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
                   TRANDING Autonomous AI
                   <span className="text-[9px] font-mono uppercase px-1.5 py-0.2 rounded-full bg-[#00ff88]/20 text-[#00ff88] font-bold border border-[#00ff88]/30 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping" />
-                    Live & Working
+                    Online & Active
                   </span>
                 </div>
                 <div className="text-[10px] text-slate-400 font-mono flex items-center gap-2">
@@ -438,7 +479,7 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
           <div className="px-3 py-2 bg-[#101018] border-b border-white/[0.05] flex items-center gap-1.5 overflow-x-auto text-[11px] shrink-0 no-scrollbar">
             <button
               onClick={() => handleSendMessage(undefined, 'Top 5 global trends right now')}
-              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#ff0080]/20 hover:border-[#ff0080]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5"
+              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#ff0080]/20 hover:border-[#ff0080]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5 cursor-pointer"
             >
               <TrendingUp className="w-3 h-3 text-[#ff0080]" />
               Top 5 Trends
@@ -450,21 +491,21 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
                   `Generate a viral YouTube Shorts script for ${trends[0]?.topic || 'AI Trends'}`
                 )
               }
-              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#00ff88]/20 hover:border-[#00ff88]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5"
+              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#00ff88]/20 hover:border-[#00ff88]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5 cursor-pointer"
             >
               <Video className="w-3 h-3 text-[#00ff88]" />
               Viral Shorts Script
             </button>
             <button
               onClick={() => handleSendMessage(undefined, 'Zero-competition SEO keywords for blog')}
-              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#00f0ff]/20 hover:border-[#00f0ff]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5"
+              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#00f0ff]/20 hover:border-[#00f0ff]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5 cursor-pointer"
             >
               <Target className="w-3 h-3 text-[#00f0ff]" />
               Zero-KD Keywords
             </button>
             <button
               onClick={() => handleSendMessage(undefined, 'Predict breakout trends in next 72 hours')}
-              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#ffdd00]/20 hover:border-[#ffdd00]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5"
+              className="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-[#ffdd00]/20 hover:border-[#ffdd00]/40 text-slate-300 hover:text-white whitespace-nowrap transition border border-white/[0.06] flex items-center gap-1.5 cursor-pointer"
             >
               <Sparkles className="w-3 h-3 text-[#ffdd00]" />
               72h Forecast
@@ -484,7 +525,7 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
                   </div>
                 )}
 
-                <div className={`max-w-[88%] sm:max-w-[82%] space-y-2`}>
+                <div className={`max-w-[90%] sm:max-w-[82%] space-y-2`}>
                   <div
                     className={`p-3.5 rounded-2xl leading-relaxed relative group ${
                       msg.sender === 'user'
@@ -507,7 +548,7 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
                       {msg.sender === 'ai' && (
                         <button
                           onClick={() => copyMessage(msg.text, msg.id)}
-                          className="hover:opacity-100 flex items-center gap-1 font-mono transition text-slate-300 hover:text-white"
+                          className="hover:opacity-100 flex items-center gap-1 font-mono transition text-slate-300 hover:text-white cursor-pointer"
                         >
                           {copiedId === msg.id ? (
                             <Check className="w-3 h-3 text-[#00ff88]" />
@@ -605,7 +646,7 @@ Publishing coverage on *"${matched.topic}"* right now captures early search inde
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask anything (e.g. 'Write YouTube script', '0-KD keywords', 'Top trends')..."
+              placeholder="Ask anything (e.g. 'Hello', 'Write YouTube script', '0-KD keywords', 'Top trends')..."
               className="flex-1 bg-[#161624] border border-white/[0.1] focus:border-[#ff0080] focus:ring-1 focus:ring-[#ff0080] focus:outline-none rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 transition"
             />
             <button

@@ -249,45 +249,52 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* Language Selector Dropdown */}
+          {/* Prominent High-Visibility Universal Language Selector */}
           <div ref={langRef} className="relative">
             <button
               onClick={() => setIsLangOpen(!isLangOpen)}
-              className="flex items-center gap-1.5 bg-[#13131a] hover:bg-[#1a1a24] border border-white/[0.08] rounded-xl px-2.5 py-2 text-xs font-medium text-slate-300 transition"
+              className="flex items-center gap-1.5 sm:gap-2 bg-gradient-to-r from-[#181824] to-[#12121a] hover:from-[#202030] hover:to-[#181824] border border-[#ff0080]/40 hover:border-[#00ff88] rounded-xl px-2.5 sm:px-3 py-2 text-xs font-bold text-white transition shadow-sm hover:shadow-md cursor-pointer group"
               title={t('select_language')}
             >
+              <Globe className="w-3.5 h-3.5 text-[#00ff88] group-hover:rotate-45 transition-transform duration-300" />
               <span className="text-sm">{currentLang.flag}</span>
-              <span className="hidden sm:inline">{currentLang.native_name}</span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              <span className="font-semibold text-slate-200 group-hover:text-white">{currentLang.native_name}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-transform ${isLangOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {isLangOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#121218] border border-white/[0.1] rounded-xl shadow-2xl p-1.5 z-50 max-h-72 overflow-y-auto">
-                <div className="px-2.5 py-1 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                  {t('select_language')}
+              <div className="absolute right-0 mt-2 w-56 bg-[#121218] border border-white/[0.15] rounded-xl shadow-2xl p-2 z-50 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-2.5 py-1.5 text-[10px] font-mono text-[#00ff88] uppercase tracking-wider border-b border-white/[0.06] flex items-center justify-between">
+                  <span>{t('select_language')}</span>
+                  <span className="text-slate-400">13 Languages</span>
                 </div>
-                {SUPPORTED_LANGUAGES.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      onSelectLang(lang);
-                      setIsLangOpen(false);
-                    }}
-                    className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs flex items-center justify-between transition ${
-                      currentLang.code === lang.code
-                        ? 'bg-[#ff0080]/15 text-[#ff0080] font-semibold'
-                        : 'text-slate-300 hover:bg-white/[0.05]'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span>{lang.flag}</span>
-                      <span>{lang.native_name}</span>
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-500 uppercase">
-                      {lang.code}
-                    </span>
-                  </button>
-                ))}
+                <div className="space-y-1 mt-1">
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        onSelectLang(lang);
+                        setIsLangOpen(false);
+                      }}
+                      className={`w-full text-left px-2.5 py-2 rounded-lg text-xs flex items-center justify-between transition ${
+                        currentLang.code === lang.code
+                          ? 'bg-gradient-to-r from-[#ff0080]/20 to-[#7928ca]/20 text-white font-bold border border-[#ff0080]/40'
+                          : 'text-slate-300 hover:bg-white/[0.06] hover:text-white'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <span className="text-base">{lang.flag}</span>
+                        <div>
+                          <div className="font-medium text-xs leading-none">{lang.native_name}</div>
+                          <div className="text-[10px] text-slate-400 font-mono mt-0.5">{lang.name}</div>
+                        </div>
+                      </span>
+                      <span className="text-[10px] font-mono text-slate-500 uppercase px-1.5 py-0.5 rounded bg-black/40">
+                        {lang.code}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>

@@ -66,13 +66,56 @@ export function App() {
   // Mobile Bottom Navigation Tab
   const [mobileTab, setMobileTab] = useState<'feed' | 'top20' | 'radar' | 'compare' | 'search'>('feed');
 
-  // Universal language state (default auto-detected, persisted in localStorage)
+  // Universal language state (default auto-detected from Country/Locale, persisted in localStorage)
   const [currentLang, setCurrentLang] = useState<SupportedLanguage>(() => {
     const saved = localStorage.getItem('goo_lang');
     if (saved) {
       const match = SUPPORTED_LANGUAGES.find((l) => l.code === saved);
       if (match) return match;
     }
+
+    // 1. Timezone Geo-Inference for instantaneous mother tongue selection
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      if (tz.includes('Calcutta') || tz.includes('Kolkata') || tz.includes('India')) {
+        const hi = SUPPORTED_LANGUAGES.find((l) => l.code === 'hi');
+        if (hi) return hi;
+      }
+      if (tz.includes('Karachi') || tz.includes('Pakistan')) {
+        const ur = SUPPORTED_LANGUAGES.find((l) => l.code === 'ur');
+        if (ur) return ur;
+      }
+      if (tz.includes('Dhaka') || tz.includes('Bangladesh')) {
+        const bn = SUPPORTED_LANGUAGES.find((l) => l.code === 'bn');
+        if (bn) return bn;
+      }
+      if (tz.includes('Tokyo') || tz.includes('Japan')) {
+        const ja = SUPPORTED_LANGUAGES.find((l) => l.code === 'ja');
+        if (ja) return ja;
+      }
+      if (tz.includes('Berlin') || tz.includes('Vienna')) {
+        const de = SUPPORTED_LANGUAGES.find((l) => l.code === 'de');
+        if (de) return de;
+      }
+      if (tz.includes('Paris')) {
+        const fr = SUPPORTED_LANGUAGES.find((l) => l.code === 'fr');
+        if (fr) return fr;
+      }
+      if (tz.includes('Madrid') || tz.includes('Buenos_Aires') || tz.includes('Bogota') || tz.includes('Mexico')) {
+        const es = SUPPORTED_LANGUAGES.find((l) => l.code === 'es');
+        if (es) return es;
+      }
+      if (tz.includes('Sao_Paulo') || tz.includes('Lisbon')) {
+        const pt = SUPPORTED_LANGUAGES.find((l) => l.code === 'pt');
+        if (pt) return pt;
+      }
+      if (tz.includes('Riyadh') || tz.includes('Dubai') || tz.includes('Cairo')) {
+        const ar = SUPPORTED_LANGUAGES.find((l) => l.code === 'ar');
+        if (ar) return ar;
+      }
+    } catch (_) {}
+
+    // 2. Browser Locale check
     const browserLang = navigator.language ? navigator.language.slice(0, 2).toLowerCase() : 'en';
     const autoMatch = SUPPORTED_LANGUAGES.find((l) => l.code === browserLang);
     return autoMatch || SUPPORTED_LANGUAGES[0];
