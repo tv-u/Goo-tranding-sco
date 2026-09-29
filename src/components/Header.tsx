@@ -21,6 +21,8 @@ interface HeaderProps {
   onSelectLang: (lang: SupportedLanguage) => void;
   onOpenPipeline: () => void;
   onOpenDistribution: () => void;
+  onOpenCloudflare: () => void;
+  onOpenPowerSuite: () => void;
   onSelectTrend: (trend: TrendItem) => void;
   allTrends: TrendItem[];
 }
@@ -32,6 +34,8 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectLang,
   onOpenPipeline,
   onOpenDistribution,
+  onOpenCloudflare,
+  onOpenPowerSuite,
   onSelectTrend,
   allTrends,
 }) => {
@@ -115,6 +119,22 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <Share2 className="w-3.5 h-3.5 text-[#00ff88]" />
               <span className="hidden sm:inline">{t('distribution_hub')}</span>
+            </button>
+            <span className="text-slate-600">·</span>
+            <button
+              onClick={onOpenCloudflare}
+              className="text-[#f38020] hover:text-[#faae40] transition flex items-center gap-1 text-[11px] font-mono font-bold"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#f38020] animate-pulse"></span>
+              <span className="hidden sm:inline">Edge CDN / Cloudflare</span>
+            </button>
+            <span className="text-slate-600">·</span>
+            <button
+              onClick={onOpenPowerSuite}
+              className="text-[#00ff88] hover:text-white bg-[#00ff88]/10 hover:bg-[#00ff88]/20 px-2.5 py-0.5 rounded-full border border-[#00ff88]/30 transition flex items-center gap-1.5 text-[11px] font-mono font-bold shadow-sm"
+            >
+              <span className="animate-spin text-xs">⚡</span>
+              <span>13 Pro Tools</span>
             </button>
           </div>
         </div>

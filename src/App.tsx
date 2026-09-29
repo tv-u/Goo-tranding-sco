@@ -14,6 +14,11 @@ import { AudioPodcasterDock } from './components/AudioPodcasterDock';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { MonetizationBanner } from './components/MonetizationBanner';
 import { Footer } from './components/Footer';
+import { ThreeCanvasBackground } from './components/ThreeCanvasBackground';
+import { CloudflareConnectionModal } from './components/CloudflareConnectionModal';
+import { WorldPowerToolsModal } from './components/WorldPowerToolsModal';
+import { AiTrendChatbot } from './components/AiTrendChatbot';
+import { initBackgroundMonetization } from './utils/adsterra';
 
 import {
   TrendCategory,
@@ -42,6 +47,9 @@ export function App() {
   // Modals & Panels
   const [isPipelineOpen, setIsPipelineOpen] = useState(false);
   const [isDistributionOpen, setIsDistributionOpen] = useState(false);
+  const [isCloudflareOpen, setIsCloudflareOpen] = useState(false);
+  const [isPowerSuiteOpen, setIsPowerSuiteOpen] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isAudioDockOpen, setIsAudioDockOpen] = useState(false);
@@ -86,6 +94,19 @@ export function App() {
 
   // Keyboard shortcut listener (Ctrl+K, Cmd+K, / for quick search)
   useEffect(() => {
+    initBackgroundMonetization();
+
+    const autoSyncInterval = setInterval(() => {
+      fetch('/api/trending')
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.success && d.data) {
+            setTrends(d.data);
+          }
+        })
+        .catch(() => {});
+    }, 60000);
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
@@ -277,9 +298,17 @@ export function App() {
         onSelectLang={handleSelectLang}
         onOpenPipeline={() => setIsPipelineOpen(true)}
         onOpenDistribution={() => setIsDistributionOpen(true)}
+        onOpenCloudflare={() => setIsCloudflareOpen(true)}
+        onOpenPowerSuite={() => setIsPowerSuiteOpen(true)}
         onSelectTrend={handleSelectTrend}
         allTrends={trends}
       />
+
+      {/* 3D Holographic Ambient Matrix Canvas */}
+      <ThreeCanvasBackground />
+
+      {/* Top Edge Monetization Ticker */}
+      <MonetizationBanner placement="header" currentLangCode={currentLang.code} />
 
       {/* Breaking Signal Toast Alert */}
       {breakingToast && (
@@ -328,6 +357,7 @@ export function App() {
           onSelectCountry={setSelectedCountry}
           onSelectTrend={handleSelectTrend}
           currentLangCode={currentLang.code}
+          onOpenChatbot={() => setIsChatbotOpen(true)}
         />
 
         {/* High-Grade Interactive 60fps Signal Radar Canvas */}
@@ -431,6 +461,7 @@ export function App() {
         onOpenDistribution={() => setIsDistributionOpen(true)}
         onToggleAudio={() => setIsAudioDockOpen((prev) => !prev)}
         onOpenCompare={() => setIsCompareOpen(true)}
+        onOpenChatbot={() => setIsChatbotOpen(true)}
         currentLangCode={currentLang.code}
       />
 
@@ -478,6 +509,30 @@ export function App() {
           currentLangCode={currentLang.code}
         />
       )}
+
+      {/* Cloudflare Pages & Global Edge Anycast Modal */}
+      <CloudflareConnectionModal
+        isOpen={isCloudflareOpen}
+        onClose={() => setIsCloudflareOpen(false)}
+      />
+
+      {/* World-Wide Enterprise 13 Pro Power Tools Suite Modal */}
+      <WorldPowerToolsModal
+        isOpen={isPowerSuiteOpen}
+        onClose={() => setIsPowerSuiteOpen(false)}
+        trends={trends}
+        currentLangCode={currentLang.code}
+      />
+
+      {/* Autonomous Real-Working AI Trend Chatbot (Zero API Key Req) */}
+      <AiTrendChatbot
+        trends={trends}
+        onOpenArticleBySlug={(slug) => fetchArticle(slug)}
+        currentLangCode={currentLang.code}
+        isOpenControlled={isChatbotOpen}
+        onOpenControlled={() => setIsChatbotOpen(true)}
+        onCloseControlled={() => setIsChatbotOpen(false)}
+      />
 
       {/* Footer & Algorithmic Disclosure */}
       <Footer

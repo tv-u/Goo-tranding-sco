@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, Globe2, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, Globe2, ArrowUpRight, Bot, Sparkles, Zap } from 'lucide-react';
 import { TrendItem } from '../types';
 import { useI18n } from '../i18n/useI18n';
 
@@ -9,6 +9,7 @@ interface LiveHeroProps {
   onSelectCountry: (code: string) => void;
   onSelectTrend: (trend: TrendItem) => void;
   currentLangCode: string;
+  onOpenChatbot?: () => void;
 }
 
 export const LiveHero: React.FC<LiveHeroProps> = ({
@@ -17,6 +18,7 @@ export const LiveHero: React.FC<LiveHeroProps> = ({
   onSelectCountry,
   onSelectTrend,
   currentLangCode,
+  onOpenChatbot,
 }) => {
   const { t, getLocalizedTrend, getLocalizedCategory } = useI18n(currentLangCode);
   const spotlightTrends = topTrends.slice(0, 3).map(getLocalizedTrend);
@@ -58,23 +60,61 @@ export const LiveHero: React.FC<LiveHeroProps> = ({
             </p>
           </div>
 
-          {/* Micro Stat Counter Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 shrink-0">
-            <div className="bg-[#121218] border border-white/[0.06] rounded-xl p-3 text-left">
-              <div className="text-[11px] font-mono text-slate-400">{t('stat_ingested')}</div>
-              <div className="text-xl font-bold text-white mt-0.5">{t('stat_ingested_val')}</div>
+          {/* Micro Stat Counter Strip: 2x2 Grid on Mobile & Desktop perfectly fitting next to HALLUCINATION SHIELD */}
+          <div className="grid grid-cols-2 gap-3 shrink-0 max-w-xl">
+            {/* Box 1: INGESTED TOPICS */}
+            <div className="bg-[#121218] border border-white/[0.08] rounded-xl p-3 sm:p-4 text-left shadow-md">
+              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">{t('stat_ingested')}</div>
+              <div className="text-xl sm:text-2xl font-bold text-white mt-0.5">{t('stat_ingested_val')}</div>
               <div className="text-[10px] text-[#00ff88] mt-1 font-mono">{t('stat_dedup')}</div>
             </div>
-            <div className="bg-[#121218] border border-white/[0.06] rounded-xl p-3 text-left">
-              <div className="text-[11px] font-mono text-slate-400">{t('stat_top20')}</div>
-              <div className="text-xl font-bold text-white mt-0.5">{t('stat_top20_val')}</div>
+
+            {/* Box 2: TOP 20 RANKING */}
+            <div className="bg-[#121218] border border-white/[0.08] rounded-xl p-3 sm:p-4 text-left shadow-md">
+              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">{t('stat_top20')}</div>
+              <div className="text-xl sm:text-2xl font-bold text-white mt-0.5">{t('stat_top20_val')}</div>
               <div className="text-[10px] text-[#ffdd00] mt-1 font-mono">{t('stat_weighted')}</div>
             </div>
-            <div className="bg-[#121218] border border-white/[0.06] rounded-xl p-3 text-left col-span-2 sm:col-span-1">
-              <div className="text-[11px] font-mono text-slate-400">{t('stat_shield')}</div>
-              <div className="text-xl font-bold text-[#00ff88] mt-0.5">{t('stat_shield_val')}</div>
+
+            {/* Box 3: HALLUCINATION SHIELD (Directly below Ingested Topics) */}
+            <div className="bg-[#121218] border border-white/[0.08] rounded-xl p-3 sm:p-4 text-left shadow-md">
+              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">{t('stat_shield')}</div>
+              <div className="text-xl sm:text-2xl font-bold text-[#00ff88] mt-0.5">{t('stat_shield_val')}</div>
               <div className="text-[10px] text-slate-400 mt-1 font-mono">{t('stat_grounded')}</div>
             </div>
+
+            {/* Box 4: 3D AI CHATBOT (Directly below TOP 20 RANKING Algorithmic & directly opposite HALLUCINATION SHIELD) */}
+            <button
+              onClick={onOpenChatbot}
+              type="button"
+              className="relative group p-3 sm:p-4 rounded-xl bg-gradient-to-br from-[#ff0080]/30 via-[#7928ca]/35 to-[#00f0ff]/30 border-2 border-[#ff0080]/70 hover:border-[#00ff88] shadow-[0_8px_20px_-4px_rgba(255,0,128,0.5)] hover:shadow-[0_12px_28px_-4px_rgba(0,255,136,0.6)] transform hover:-translate-y-1 active:translate-y-0.5 transition-all duration-200 text-left flex flex-col justify-between overflow-hidden cursor-pointer"
+            >
+              {/* 3D Gloss / Shine Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/20 opacity-80 group-hover:opacity-100 pointer-events-none rounded-xl" />
+              <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#00ff88]/30 rounded-full blur-xl group-hover:scale-150 transition-all duration-300 pointer-events-none" />
+
+              <div className="flex items-center justify-between z-10">
+                <span className="text-[10px] sm:text-[11px] font-mono text-white/90 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
+                  AI ASSISTANT
+                </span>
+                <span className="px-1.5 py-0.2 rounded bg-black/50 text-[9px] font-mono text-[#00ff88] font-black border border-[#00ff88]/40">
+                  REAL AI
+                </span>
+              </div>
+
+              <div className="text-base sm:text-xl font-black text-white mt-1 z-10 flex items-center gap-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <Bot className="w-5 h-5 text-[#00ff88] animate-bounce shrink-0" />
+                <span className="bg-gradient-to-r from-white via-[#ffdd00] to-[#00ff88] bg-clip-text text-transparent">
+                  AI CHATBOT
+                </span>
+              </div>
+
+              <div className="text-[10px] text-white/95 mt-1 font-mono font-bold flex items-center justify-between z-10">
+                <span className="text-[#00f0ff] group-hover:text-white transition">Click to Chat Live</span>
+                <span className="text-xs group-hover:translate-x-1 transition text-[#ffdd00]">➔</span>
+              </div>
+            </button>
           </div>
         </div>
 

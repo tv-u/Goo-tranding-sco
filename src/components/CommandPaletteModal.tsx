@@ -6,6 +6,7 @@ import {
   Share2,
   Volume2,
   Layers,
+  Bot,
 } from 'lucide-react';
 import { TrendCategory, TrendItem } from '../types';
 import { useI18n } from '../i18n/useI18n';
@@ -20,6 +21,7 @@ interface CommandPaletteModalProps {
   onOpenDistribution: () => void;
   onToggleAudio: () => void;
   onOpenCompare: () => void;
+  onOpenChatbot?: () => void;
   currentLangCode: string;
 }
 
@@ -33,6 +35,7 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
   onOpenDistribution,
   onToggleAudio,
   onOpenCompare,
+  onOpenChatbot,
   currentLangCode,
 }) => {
   const { t, getLocalizedTrend, getLocalizedCategory } = useI18n(currentLangCode);
@@ -146,6 +149,18 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
                 >
                   <Layers className="w-4 h-4 text-white" />
                   <span>{t('nav_compare')}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (onOpenChatbot) onOpenChatbot();
+                    onClose();
+                  }}
+                  className="p-2.5 rounded-xl bg-gradient-to-r from-[#ff0080]/20 to-[#00f0ff]/20 hover:from-[#ff0080]/30 hover:to-[#00f0ff]/30 border border-[#ff0080]/40 text-left transition flex items-center gap-2 text-xs col-span-2 sm:col-span-4"
+                >
+                  <Bot className="w-4 h-4 text-[#00ff88] animate-bounce" />
+                  <span className="font-bold text-white">AI Trend Assistant (Real Autonomous Chatbot)</span>
+                  <span className="ml-auto text-[10px] font-mono text-[#00ff88] bg-[#00ff88]/10 px-1.5 py-0.5 rounded">Active</span>
                 </button>
               </div>
             </div>
